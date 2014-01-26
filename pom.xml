@@ -47,24 +47,24 @@
 
     <!-- Test -->
     <dependency>
-    	<groupId>se.stagehand</groupId>
-    	<artifactId>Stagehand-lib</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
     	<groupId>org.scala-lang</groupId>
     	<artifactId>scala-swing</artifactId>
     	<version>${scala.version}</version>
     </dependency>
     <dependency>
-    	<groupId>se.stagehand</groupId>
-    	<artifactId>Stagehand-swing</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
     	<groupId>org.imgscalr</groupId>
     	<artifactId>imgscalr-lib</artifactId>
     	<version>4.2</version>
+    </dependency>
+    <dependency>
+    	<groupId>se.stagehand</groupId>
+    	<artifactId>Stagehand-lib</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>se.stagehand</groupId>
+    	<artifactId>Stagehand-swing</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
