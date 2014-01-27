@@ -16,6 +16,12 @@ object AmbienceServer extends EffectServer {
   }
   
   val worker = new AmbienceWorker
+  
+  override def main(args:Array[String]) {
+    super.main(args)
+    AmbienceView.main(args)
+  }
+  
 }
 class AmbienceWorker extends AbstractWorker(AmbienceServer) {
   import Target.Protocol
