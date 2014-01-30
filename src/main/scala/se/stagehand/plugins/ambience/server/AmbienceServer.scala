@@ -5,6 +5,7 @@ import se.stagehand.lib.scripting.network.Capabilities
 import se.stagehand.lib.scripting.network.NetworkedEffect
 import se.stagehand.lib.network.AbstractWorker
 import se.stagehand.lib.scripting.Target
+import scalafx.application.Platform
 
 object AmbienceServer extends EffectServer {
   def name = "AmbienceServer"
@@ -27,7 +28,14 @@ class AmbienceWorker extends AbstractWorker(AmbienceServer) {
   import Target.Protocol
   
   def received(args:Protocol.Arguments) {
-    log.debug("TRYNA SHOWYA DIS: " + args.get(Capabilities.IMG_BACKGROUND))
+    import AmbienceProtocol._
+    val json = jsonString(parse(args))
+    
+    log.debug(json)
+    
+    Platform.runLater {
+      AmbienceView.play(json)
+    }
   }
   
 }

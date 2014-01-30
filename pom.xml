@@ -69,6 +69,15 @@
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>page.html</include>
+					<include>ambience.css</include>
+					<include>ambience-stage/libraries/**/*</include>
+					<include>ambience-stage/source/**/*</include>
+				</includes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>

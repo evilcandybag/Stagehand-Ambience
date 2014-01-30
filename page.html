@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Ambience</title>
+	
+	<link rel="stylesheet" href="ambience.css">
+			
+	<script src="ambience-stage/libraries/when/when.js"></script>
+	<script src="ambience-stage/libraries/manymation/source/manymation.js"></script>
+	<script src="ambience-stage/source/List.js"></script>
+	<script src="ambience-stage/source/Stage.js"></script>
+	<script src="ambience-stage/source/ScenePlayer.js"></script>
+	<script src="ambience-stage/source/MediaPlayers/Background.js"></script>
+	<script src="ambience-stage/source/MediaPlayers/Image.js"></script>
+	<script src="ambience-stage/source/MediaPlayers/Sound.js"></script>
+	<script src="ambience-stage/source/MediaPlayers/Text.js"></script>
+	<script src="ambience-stage/source/Scene.js"></script>
+</head>
+<body>
+<div class="stage">
+	<div id="backgroundLayer" class="layer background"></div>
+	<div class="layer foreground"></div>
+</div>
+<script>
+var blayer = document.getElementById("backgroundLayer")
+var background = new AmbienceStage(blayer)
+</script>
+</body>
+</html>
