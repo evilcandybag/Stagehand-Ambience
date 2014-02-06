@@ -9,21 +9,24 @@ object AmbienceProtocol {
     
     val media = for (kv <- args) yield kv match {
       case (Capabilities.IMG_BACKGROUND, v) => {
-        Image(v,Size.Fill)
+        Some(Image(v,Size.Fill))
       }
-      case _ => Text()
+      case _ => None
     }
     
-    new AmbienceAST(media.toSeq:_*)
+    new AmbienceAST(media.toSeq.flatten:_*)
   }
   
-  def jsonString(ast:AmbienceAST):String = "{" + (ast.media.map( _ match {
-    case Image(p,s) => {
-      "\"image\": {" + List(jsonItem("url",p),jsonStyle).mkString(",") + "}"
-    }
-    case Text() => ""
-    case Sound() => ""
-  }) + jsonVisual + jsonBg + jsonFade).mkString(",") + "}"
+  def jsonString(ast:AmbienceAST):String = {
+    val its = (ast.media.map( _ match {
+	    case Image(p,s) => {
+	      "\"image\": {" + List(jsonItem("url",p),jsonStyle).mkString(",") + "}"
+	    }
+	    case Text() => ""
+	    case Sound() => ""
+    })) + jsonVisual + jsonBg + jsonFade
+    "{" + its.mkString(",") + "}"
+  }
   
   def jsonFade = "\"fade\" : { \"in\" : 0,\"out\" : 0}"
   def jsonVisual = "\"isVisual\" : true"
