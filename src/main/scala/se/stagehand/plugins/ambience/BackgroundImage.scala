@@ -10,35 +10,15 @@ import se.stagehand.swing.assets.ImageAssets
 import scala.xml.Node
 import java.net.MalformedURLException
 
-class BackgroundImage(id:Int) extends NetworkedEffect(id) {
+class BackgroundImage(id:Int) extends URLEffect(id) {
   def this() = this(ID.unique)
 
-  def componentName = "BackgroundImage"
+  def componentName = "Background Image"
+  def default = ImageAssets.BACKGROUND_PLACEHOLDER.toURL()
     
   def requirements = Set(Capabilities.IMG_BACKGROUND)
   
-  def runArgs = Map(
-    (Capabilities.IMG_BACKGROUND -> imgUrl.toString())  
-  )
-  
-  var imgUrl: URL = ImageAssets.BACKGROUND_PLACEHOLDER.toURL()
-  
-  override def readInstructions(in:Node) {
-    super.readInstructions(in)
-    try {
-      imgUrl = new URL((in \\ "url").text)
-    } catch {
-      case e: MalformedURLException => {
-        log.error("Effect " + componentName + "#" + id + " contains invalid URL: " + imgUrl.toString )
-      }
-    }
-    
-  }
-  override def generateInstructions = {
-    implicit var xml = super.generateInstructions
-    xml = addChild(<url>{imgUrl.toString}</url>)
-    
-    xml
-  }
-  
+  override def runArgs = Map(
+    (Capabilities.IMG_BACKGROUND -> url.toString()) 
+  ) ++ super.runArgs 
 }

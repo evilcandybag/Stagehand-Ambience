@@ -20,44 +20,26 @@ import java.net.MalformedURLException
 import scala.swing.Dialog
 import java.awt.Color
 import scala.swing.event.MouseClicked
+import se.stagehand.swing.assets.ImageAssets
 
-object BackgroundImageGUI extends EffectGUI {
+object BackgroundImageGUI extends URLEffectGUI[BackgroundImage] {
   val peer = classOf[BackgroundImage]
-  type peertype = BackgroundImage
+  
+  def effectIcon = ImageAssets.TREE_ICON
+  
   def editorItem(effect: Effect) = new BackgroundImageEditorItem(checkEffect[peertype](effect))
   def playerItem(effect: Effect) = new BackgroundImagePlayerItem(checkEffect[peertype](effect))
-
   
-  class BackgroundImageEditorItem(e: peertype) extends Label with EditorEffectItem[peertype] {
-    def effect = e 
-    listenTo(mouse.clicks)
-    background = Color.WHITE
-    
-    updateURL(effect.imgUrl)
-    tooltip = effect.imgUrl.toString
-    
-    reactions += {
-      case e:MouseClicked => {
-        val s = Dialog.showInput[String](message = "Enter an URL to an image", title = "Enter new URL", initial = effect.imgUrl.toString)
-        if (s.isDefined) try {
-          val url = new URL(s.get)
-          updateURL(url)
-        } catch {
-          case e: MalformedURLException => Dialog.showMessage(message = s + " is not a valid URL.")
-        }
-      }
-    }
-    
-    private def updateURL(url:URL) = {
-      effect.imgUrl = url
-      text = url.getPath().substring(url.getPath.lastIndexOf('/'))
-    }
-    
+  
+  
+  class BackgroundImageEditorItem(e: peertype) extends URLEffectEditorItem(e) {
+     def msg = "Enter an URL to an image"
+     def ttl = "Enter new URL"
   }
   class BackgroundImagePlayerItem(e: peertype) extends TargetedPlayerEffectItem[peertype](e){
     def effectItem = new GridPanel(1,1) {
       border = Swing.EmptyBorder(1)
-      val img = ImageIO.read(effect.imgUrl)
+      val img = ImageIO.read(effect.url)
       val scaledImg = Scalr.resize(img,80)
       img.flush()
       

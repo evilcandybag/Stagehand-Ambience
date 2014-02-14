@@ -8,6 +8,8 @@
 			
 	<script src="ambience-stage/libraries/when/when.js"></script>
 	<script src="ambience-stage/libraries/manymation/source/manymation.js"></script>
+	
+	<script src="ambience-stage/source/extensions.js"></script>
 	<script src="ambience-stage/source/List.js"></script>
 	<script src="ambience-stage/source/Stage.js"></script>
 	<script src="ambience-stage/source/ScenePlayer.js"></script>
@@ -19,12 +21,14 @@
 </head>
 <body>
 <div class="stage">
-	<div id="backgroundLayer" class="layer background"></div>
-	<div class="layer foreground"></div>
+	<div id="bl" class="layer background"></div>
+	<div id="fl" class="layer foreground"></div>
 </div>
 <script>
-var blayer = document.getElementById("backgroundLayer")
+var blayer = document.body.querySelector(".background")
 var background = new AmbienceStage(blayer)
+var flayer = document.body.querySelector(".foreground")
+var foreground = new AmbienceStage(flayer)
 </script>
 </body>
 </html>
