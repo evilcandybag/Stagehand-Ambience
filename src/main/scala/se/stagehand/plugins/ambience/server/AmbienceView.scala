@@ -18,11 +18,15 @@ import se.stagehand.plugins.ambience.server.AmbienceProtocol.AmbienceAST
 import javafx.event.EventHandler
 import scala.swing.Dialog
 import javafx.scene.web.WebEvent
+import scalafx.scene.layout.Priority
 
 object AmbienceView extends JFXApp {
   private val log = Log.getLog(this.getClass())
   
   val browser = new WebView {
+    hgrow = Priority.ALWAYS
+    vgrow = Priority.ALWAYS
+    
     onKeyPressed = {e:KeyEvent => {
       
       e.code match {
@@ -34,9 +38,17 @@ object AmbienceView extends JFXApp {
         case KeyCode.A => {
           engine.delegate.executeScript("alert(background + ' ' + blayer + ':' + foreground + ' ' + flayer)")
         }
+        case KeyCode.F11 => {
+          stage.fullScreen = !stage.fullScreen.value
+          
+        }
+        case KeyCode.W => {
+          log.debug(stage.width + "x" + stage.height)
+        }
         case _ => log.debug("Unrecognized shit: " + e.code)
       }
-      
+      prefHeight <== stage.height
+      prefWidth <== stage.width
     }}
     
     onAlert = new EventHandler[WebEvent[String]]() {
@@ -44,10 +56,14 @@ object AmbienceView extends JFXApp {
         Dialog.showMessage(message = e.data)
       }
     }
+    
+    onResized = (e: WebEvent[_]) => log.debug("onResized: " + e)
+    log.debug("w " + width + prefWidth + " h " + height + prefHeight)
   }
   
   stage = new JFXApp.PrimaryStage {
     title = "Ambience Server"
+      
     scene = new Scene {
       fill = Color.BLACK
       content = browser
@@ -56,8 +72,9 @@ object AmbienceView extends JFXApp {
       load(url)
       
       val doc = browser.engine.delegate.getDocument()
-      
+      log.debug("" + resizable)
     }
+    
   }
   
   def load(url:URL) {
