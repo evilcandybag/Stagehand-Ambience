@@ -1,3 +1,3 @@
 [submodule "Ambience-Stage"]
-	path = ambience-stage
+	path = Ambience-Stage
 	url = git@github.com:JakobKallin/Ambience-Stage.git
