@@ -14,7 +14,7 @@ class BackgroundImage(id:Int) extends URLEffect(id) {
   def this() = this(ID.unique)
 
   def componentName = "Background Image"
-  def default = ImageAssets.BACKGROUND_PLACEHOLDER.toURL()
+  def default = ImageAssets.BG_WEB
     
   def requirements = Set(Capabilities.IMG_BACKGROUND)
   

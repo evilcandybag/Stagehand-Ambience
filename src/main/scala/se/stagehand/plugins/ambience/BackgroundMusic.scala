@@ -9,7 +9,7 @@ class BackgroundMusic(id:Int) extends URLEffect(id) {
   def this() = this(ID.unique)
 
   def componentName = "Background Music"  
-  def default = AudioAssets.BACKGROUND_MUSIC_PLACEHOLDER.toURL()
+  def default = AudioAssets.BGM_WEB
     
   def requirements = Set(Capabilities.MUSIC_BACKGROUND)
   

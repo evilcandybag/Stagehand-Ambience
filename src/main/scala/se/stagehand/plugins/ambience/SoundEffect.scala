@@ -9,7 +9,7 @@ class SoundEffect(id:Int) extends URLEffect(id) {
   def this() = this(ID.unique)
 
   def componentName = "Sound Effect"  
-  def default = AudioAssets.SOUND_EFFECT_PLACEHOLDER.toURL()
+  def default = AudioAssets.SFX_WEB
     
   def requirements = Set(Capabilities.SOUND_EFFECT)
   
