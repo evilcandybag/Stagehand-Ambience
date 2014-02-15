@@ -16,16 +16,16 @@ object AmbienceProtocol {
     var mixin = false
     val media = for (kv <- args) yield kv match {
       case (IMG_BACKGROUND, v) => {
-        Some(Right(Image(v,Size.Fill)))
+        Some(Right(Image(v,Size.Fill())))
       }
       case (IMG_FOREGROUND, v) => {
-        Some(Left(Image(v,Size.Actual)))
+        val args = v.split(Target.Protocol.KEY_KEY)
+        Some(Left(Image(args(0),Size.Scale(args(1),args(2)))))
       }
       case (MUSIC_BACKGROUND, v) => {
         Some(Right(Sound(v,true,true)))
       }
       case (SOUND_EFFECT, v) => {
-        log.debug("bdblndlldhkbsnpobmpobö")
         Some(Left(Sound(v,true,false)))
       }
       case (Directives.Persistence.ARG, v) => v match {
@@ -64,17 +64,8 @@ object AmbienceProtocol {
   val jsonAural = jsonVal("isAural","true")
   val jsonBg = jsonStr("background", "#000000")
     
-  def jsonStyle(s:Size.Value) = {
-    val size = s match {
-      case (Size.Fill | Size.Fit) => {
-        s.toString
-      }
-      case Size.Actual => {
-        s.toString
-      }
-    }
-    
-    "\"style\": {" + jsonStr("backgroundSize", size) + "}"
+  def jsonStyle(s:Size) = {
+    "\"style\": {" + jsonStr("backgroundSize", s.toString) + "}"
   }
     
   object Media extends Enumeration {
@@ -93,15 +84,21 @@ object AmbienceProtocol {
       case _ => false 
     }
   }
-  object Size extends Enumeration {
-      val Fill = Value("cover")
-      val Fit = Value("contain")
-      val Actual = Value("initial")
-      val Scale = Value("scale")
+  sealed trait Size 
+  object Size {
+    case class Fill extends Size {
+      override def toString= "cover"
+    }
+    case class Fit extends Size {
+      override def toString = "contain"
+    }
+    case class Scale(x:String,y:String) extends Size {
+      override def toString = x + " " + y
+    }
   }
   case class Image (
     path: String,
-    size: Size.Value
+    size: Size
     ) extends AmbienceMedia
   
   case class Text extends AmbienceMedia
