@@ -74,8 +74,8 @@
 				<includes>
 					<include>page.html</include>
 					<include>ambience.css</include>
-					<include>ambience-stage/libraries/**/*</include>
-					<include>ambience-stage/source/**/*</include>
+					<include>Ambience-Stage/libraries/**/*</include>
+					<include>Ambience-Stage/source/**/*</include>
 				</includes>
 			</resource>
 		</resources>
