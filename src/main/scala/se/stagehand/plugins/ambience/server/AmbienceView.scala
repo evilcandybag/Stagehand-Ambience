@@ -19,6 +19,7 @@ import javafx.event.EventHandler
 import scala.swing.Dialog
 import javafx.scene.web.WebEvent
 import scalafx.scene.layout.Priority
+import se.stagehand.swing.assets.FileManager
 
 object AmbienceView extends JFXApp {
   private val log = Log.getLog(this.getClass())
@@ -56,9 +57,6 @@ object AmbienceView extends JFXApp {
         Dialog.showMessage(message = e.data)
       }
     }
-    
-    onResized = (e: WebEvent[_]) => log.debug("onResized: " + e)
-    log.debug("w " + width + prefWidth + " h " + height + prefHeight)
   }
   
   stage = new JFXApp.PrimaryStage {
@@ -67,12 +65,11 @@ object AmbienceView extends JFXApp {
     scene = new Scene {
       fill = Color.BLACK
       content = browser
-      val url = Plugin.localResource(this, "page.html")
+      val url = FileManager.localResource(this, "page.html")
         
       load(url)
       
       val doc = browser.engine.delegate.getDocument()
-      log.debug("" + resizable)
     }
     
   }
