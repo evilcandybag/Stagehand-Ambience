@@ -125,7 +125,6 @@
 									<include>org.scalafx:scalafx_2.10</include>
 								</includes>
 							</artifactSet>
-							<minimizeJar>true</minimizeJar>
 						</configuration>
 					</execution>
 				</executions>
