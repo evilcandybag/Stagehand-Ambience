@@ -39,13 +39,14 @@ object BackgroundImageGUI extends URLEffectGUI[BackgroundImage] {
   class BackgroundImagePlayerItem(e: peertype) extends TargetedPlayerEffectItem[peertype](e){
     def effectItem = new GridPanel(1,1) {
       border = Swing.EmptyBorder(1)
-      val img = ImageIO.read(effect.url)
-      val scaledImg = Scalr.resize(img,80)
-      img.flush()
-      
-      val icon = new ImageIcon(scaledImg)
-      
-      contents += new Label("",icon, Alignment.Center)
+//      val img = ImageIO.read(effect.url)
+//      val scaledImg = Scalr.resize(img,80)
+//      img.flush()
+//      
+//      val icon = new ImageIcon(scaledImg)
+//      
+//      contents += new Label("",icon, Alignment.Center)
+      contents += new Label(effect.url.toString().substring(effect.url.toString().lastIndexOf("/")))
     }
   }
 }

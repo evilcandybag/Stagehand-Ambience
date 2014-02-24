@@ -19,7 +19,7 @@ import javafx.event.EventHandler
 import scala.swing.Dialog
 import javafx.scene.web.WebEvent
 import scalafx.scene.layout.Priority
-import se.stagehand.swing.assets.FileManager
+import se.stagehand.lib.FileManager
 
 object AmbienceView extends JFXApp {
   private val log = Log.getLog(this.getClass())
@@ -60,12 +60,12 @@ object AmbienceView extends JFXApp {
   }
   
   stage = new JFXApp.PrimaryStage {
-    title = "Ambience Server"
+    title = "Ambience Server - " + AmbienceServer.name
       
     scene = new Scene {
       fill = Color.BLACK
       content = browser
-      val url = FileManager.localResource(this, "page.html")
+      val url = FileManager.localResource("page.html")
         
       load(url)
       
@@ -85,16 +85,30 @@ object AmbienceView extends JFXApp {
 //    log.debug("" + json )
     val fground = AmbienceProtocol.jsonString(ast.foreground)
     val bground = AmbienceProtocol.jsonString(ast.background)
+    log.debug("fg " + ast.foreground + ast.foreground.size + " bg: " + ast.background + ast.background.size)
     
     val pm = if (ast.mixin) "mixin" else "play"
+    
       
+    
     val mkstr = (p:String,div:String,fg:Boolean) => {
-      (if (fg) "foreground" else "background") +
-      "." + p + "(JSON.parse('" + div + "'))"
-    }  
       
-    browser.engine.delegate.executeScript(mkstr(pm,bground,false))
-    browser.engine.delegate.executeScript(mkstr(pm,fground,true))
+      val fb = if (fg) "foreground" else "background"
+      fb + "." + p + "(JSON.parse('" + div + "'))"
+    }
+    if(!ast.mixin) {
+        browser.engine.delegate.executeScript("foreground.stop();background.stop();") 
+      }
+    if (ast.background.size > 0) { 
+      val s = mkstr(pm,bground,false)
+      log.debug(s)
+      browser.engine.delegate.executeScript(mkstr(pm,bground,false))
+    }
+    if (ast.foreground.size > 0) {
+      val s = mkstr(pm,fground,true)
+      log.debug(s)
+      browser.engine.delegate.executeScript(mkstr(pm,fground,true))
+    }
   }
   
   override def stopApp {

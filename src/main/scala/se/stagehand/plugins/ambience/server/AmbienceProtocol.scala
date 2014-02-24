@@ -13,6 +13,8 @@ object AmbienceProtocol {
     import Capabilities._
     import Directives._
     
+    log.debug("ARGUMENTS: " + args)
+    
     var mixin = false
     val media = for (kv <- args) yield kv match {
       case (IMG_BACKGROUND, v) => {
@@ -43,8 +45,11 @@ object AmbienceProtocol {
   }
   
   def jsonString(media:Set[AmbienceMedia]):String = {
-    val its = (media.map( _ match {
+    log.debug("MEDIA: " + media)
+    var visual = false; 
+    var its = (media.map( _ match {
 	    case Image(p,s) => {
+	      visual = true;
 	      "\"image\": {" + List(jsonStr("url",p),jsonStyle(s)).mkString(",") + "}"
 	    }
 	    case Text() => ""
@@ -55,13 +60,13 @@ object AmbienceProtocol {
 	      jsonVal("loop","" + r),
 	      jsonVal("shuffle", "" + s)
 	    ).mkString(",") + "}"
-    })) + jsonVisual + jsonBg + jsonFade
+    })) + jsonFade
+    if (visual) its += jsonVisual
     "{" + its.mkString(",") + "}"
   }
   
   val jsonFade = jsonVal("fade","{ \"in\" : 0,\"out\" : 0}")
   val jsonVisual = jsonVal("isVisual","true")
-  val jsonAural = jsonVal("isAural","true")
   val jsonBg = jsonStr("background", "#000000")
     
   def jsonStyle(s:Size) = {

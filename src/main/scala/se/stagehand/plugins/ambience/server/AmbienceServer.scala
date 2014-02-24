@@ -8,7 +8,7 @@ import se.stagehand.lib.scripting.Target
 import scalafx.application.Platform
 
 object AmbienceServer extends EffectServer {
-  def name = "AmbienceServer"
+  def defaultName = "Ambience Server"
   def properties = {
     import Capabilities._
     val caps = List(
